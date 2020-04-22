@@ -2,7 +2,7 @@ data "consul_acl_policy" "global_management" {
   name = "global-management"
 }
 
-resource "consul_acl_policy" "all_key_write" {
+resource "consul_acl_policy" "all_kv_write" {
   name        = "resin-kv-write-all"
   description = "Write to all KV prefixes"
   rules = jsonencode({
@@ -14,7 +14,7 @@ resource "consul_acl_policy" "all_key_write" {
   })
 }
 
-resource "consul_acl_policy" "all_key_read" {
+resource "consul_acl_policy" "all_kv_read" {
   name        = "resin-kv-read-all"
   description = "Read all KV prefixes"
   rules = jsonencode({
