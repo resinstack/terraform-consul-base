@@ -1,3 +1,9 @@
+variable "configure_for_nomad" {
+  type        = bool
+  description = "Create policies and roles for Nomad"
+  default     = true
+}
+
 variable "create_root_role" {
   type        = bool
   description = "Create root role with global-management"
