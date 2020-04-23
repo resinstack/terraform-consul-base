@@ -1,3 +1,9 @@
+variable "create_root_role" {
+  type        = bool
+  description = "Create root role with global-management"
+  default     = true
+}
+
 variable "create_kv_policies" {
   type        = bool
   description = "Create prefix policies for KV store"
