@@ -4,6 +4,12 @@ variable "configure_for_nomad" {
   default     = true
 }
 
+variable "configure_for_vault" {
+  type        = bool
+  description = "Create policies and roles for Vault"
+  default     = true
+}
+
 variable "create_root_role" {
   type        = bool
   description = "Create root role with global-management"
