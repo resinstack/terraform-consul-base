@@ -1,97 +1,135 @@
-resource "consul_acl_token_policy_attachment" "anonymous_kv_read" {
-  count = var.anonymous_kv_read ? 1 : 0
+locals {
+  prefix_kv_write = {
+    key_prefix = {
+      "" = {
+        policy = "write"
+      }
+    }
+  }
 
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_kv_read[0].name
+  prefix_kv_read = {
+    key_prefix = {
+      "" = {
+        policy = "read"
+      }
+    }
+  }
+
+  prefix_agent_write = {
+    agent_prefix = {
+      "" = {
+        policy = "write"
+      }
+    }
+  }
+
+  prefix_agent_read = {
+    agent_prefix = {
+      "" = {
+        policy = "read"
+      }
+    }
+  }
+
+  prefix_event_write = {
+    event_prefix = {
+      "" = {
+        policy = "write"
+      }
+    }
+  }
+
+  prefix_event_read = {
+    event_prefix = {
+      "" = {
+        policy = "read"
+      }
+    }
+  }
+
+  prefix_node_write = {
+    node_prefix = {
+      "" = {
+        policy = "write"
+      }
+    }
+  }
+
+  prefix_node_read = {
+    node_prefix = {
+      "" = {
+        policy = "read"
+      }
+    }
+  }
+
+  prefix_query_write = {
+    query_prefix = {
+      "" = {
+        policy = "write"
+      }
+    }
+  }
+
+  prefix_query_read = {
+    query_prefix = {
+      "" = {
+        policy = "read"
+      }
+    }
+  }
+
+  prefix_service_write = {
+    service_prefix = {
+      "" = {
+        policy = "write"
+      }
+    }
+  }
+
+  prefix_service_read = {
+    service_prefix = {
+      "" = {
+        policy = "read"
+      }
+    }
+  }
+
+  prefix_session_write = {
+    session_prefix = {
+      "" = {
+        policy = "write"
+      }
+    }
+  }
+
+  prefix_session_read = {
+    session_prefix = {
+      "" = {
+        policy = "read"
+      }
+    }
+  }
 }
 
-resource "consul_acl_token_policy_attachment" "anonymous_kv_write" {
-  count = var.anonymous_kv_write ? 1 : 0
+resource "consul_acl_policy" "anonymous" {
+  name = "resin-anonymous"
+  description = "Anonymous Policy"
 
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_kv_write[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_agent_read" {
-  count = var.anonymous_agent_read ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_agent_read[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_agent_write" {
-  count = var.anonymous_agent_write ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_agent_write[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_event_read" {
-  count = var.anonymous_event_read ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_event_read[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_event_write" {
-  count = var.anonymous_event_write ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_event_write[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_node_read" {
-  count = var.anonymous_node_read ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_node_read[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_node_write" {
-  count = var.anonymous_node_write ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_node_write[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_query_read" {
-  count = var.anonymous_query_read ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_query_read[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_query_write" {
-  count = var.anonymous_query_write ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_query_write[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_service_read" {
-  count = var.anonymous_service_read ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_service_read[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_service_write" {
-  count = var.anonymous_service_write ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_service_write[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_session_read" {
-  count = var.anonymous_session_read ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_session_read[0].name
-}
-
-resource "consul_acl_token_policy_attachment" "anonymous_session_write" {
-  count = var.anonymous_session_write ? 1 : 0
-
-  token_id = data.consul_acl_token.anonymous.accessor_id
-  policy   = consul_acl_policy.all_session_write[0].name
+  rules = jsonencode(merge(
+    var.anonymous_kv_read ? local.prefix_kv_read : {},
+    var.anonymous_kv_write ? local.prefix_kv_write : {},
+    var.anonymous_agent_read ? local.prefix_agent_read : {},
+    var.anonymous_agent_write ? local.prefix_agent_write : {},
+    var.anonymous_event_read ? local.prefix_event_read : {},
+    var.anonymous_event_write ? local.prefix_event_write : {},
+    var.anonymous_node_read ? local.prefix_node_read : {},
+    var.anonymous_node_write ? local.prefix_node_write : {},
+    var.anonymous_query_read ? local.prefix_query_read : {},
+    var.anonymous_query_write ? local.prefix_query_write : {},
+    var.anonymous_service_read ? local.prefix_service_read : {},
+    var.anonymous_service_write ? local.prefix_service_write : {},
+    var.anonymous_session_read ? local.prefix_session_read : {},
+    var.anonymous_session_write ? local.prefix_session_write : {},
+    ))
 }

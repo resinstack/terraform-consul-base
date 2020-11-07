@@ -16,48 +16,6 @@ variable "create_root_role" {
   default     = true
 }
 
-variable "create_kv_policies" {
-  type        = bool
-  description = "Create prefix policies for KV store"
-  default     = false
-}
-
-variable "create_agent_policies" {
-  type        = bool
-  description = "Create prefix policies for agents"
-  default     = false
-}
-
-variable "create_event_policies" {
-  type        = bool
-  description = "Create prefix policies for events"
-  default     = false
-}
-
-variable "create_node_policies" {
-  type        = bool
-  description = "Create prefix policies for nodes"
-  default     = false
-}
-
-variable "create_query_policies" {
-  type        = bool
-  description = "Create prefix policies for querys"
-  default     = false
-}
-
-variable "create_service_policies" {
-  type        = bool
-  description = "Create prefix policies for services"
-  default     = false
-}
-
-variable "create_session_policies" {
-  type        = bool
-  description = "Create prefix policies for sessions"
-  default     = false
-}
-
 variable "anonymous_kv_read" {
   type        = bool
   description = "Allow anonymous read for kv data"
