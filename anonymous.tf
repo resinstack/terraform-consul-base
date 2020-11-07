@@ -113,7 +113,7 @@ locals {
 }
 
 resource "consul_acl_policy" "anonymous" {
-  name = "resin-anonymous"
+  name        = "resin-anonymous"
   description = "Anonymous Policy"
 
   rules = jsonencode(merge(
@@ -131,5 +131,10 @@ resource "consul_acl_policy" "anonymous" {
     var.anonymous_service_write ? local.prefix_service_write : {},
     var.anonymous_session_read ? local.prefix_session_read : {},
     var.anonymous_session_write ? local.prefix_session_write : {},
-    ))
+  ))
+}
+
+resource "consul_acl_token_policy_attachment" "anonymous" {
+  token_id = data.consul_acl_token.anonymous.accessor_id
+  policy   = consul_acl_policy.anonymous.name
 }
